@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pdb
+
+# Environments
+.env
+*.env
+venv/
+env/
+.venv/
+
+# Docker
+*.log
+*.sqlite3
+docker-compose.override.yml
+
+# Git
+.git
+.gitignore
+
+# IDE / Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Testing / Pytest
+.pytest_cache/
+.coverage
+htmlcov/

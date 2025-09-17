@@ -1,0 +1,21 @@
+name: Run Integration Tests
+
+on:
+  repository_dispatch:
+    types: [products-service-updated, reviews-service-updated]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Pull docker images
+        run: |
+          docker pull ${{ secrets.DOCKER_USERNAME }}/products-service:latest
+          docker pull ${{ secrets.DOCKER_USERNAME }}/reviews-service:latest
+
+      - name: Run integration tests
+        run: |
+          docker compose -f docker-compose.test.yml up --build --abort-on-container-exit --exit-code-from integration_tests
+          docker compose -f docker-compose.test.yml down -v
