@@ -12,8 +12,14 @@ jobs:
 
       - name: Pull docker images
         run: |
-          docker pull ${{ secrets.DOCKER_USERNAME }}/products-service:latest
-          docker pull ${{ secrets.DOCKER_USERNAME }}/reviews-service:latest
+          # Use the image from the repository_dispatch payload if available
+          if [ -n "${{ github.event.client_payload.image }}" ]; then
+            echo "Pulling image from payload: ${{ github.event.client_payload.image }}"
+            docker pull ${{ github.event.client_payload.image }}
+          else
+            echo "No payload image provided, falling back to :latest"
+            docker pull ${{ secrets.DOCKER_USERNAME }}/reviews-service:latest
+          fi
 
       - name: Run integration tests
         run: |
